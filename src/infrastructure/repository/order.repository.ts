@@ -38,6 +38,17 @@ export default class OrderRepository implements OrderRepositoryInterface {
                 },
             }
         );
+
+        await OrderItemModel.destroy({where: {order_id: order.id}});
+
+        await OrderItemModel.bulkCreate(order.items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            product_id: item.productId,
+            quantity: item.quantity,
+            order_id: order.id
+        })));
     }
 
 

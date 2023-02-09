@@ -59,11 +59,19 @@ describe("Order Repository Unit Tests", () => {
         let { order } = await createOrder();
 
         const customerRepository = new CustomerRepository();
+        /** NEW CUSTOMER */
         const customer = new Customer("2", "Customer 2");
         customer.address = new Address("Street 2", "2", "12345", "City 2");
         await customerRepository.create(customer);
+        /** NEW ITEMS */
+        const productRepository = new ProductRepository();
+        const product = new Product("2", "Product 2", 200);
+        await productRepository.create(product);
+        const item = new OrderItem("2", product.name, product.price, product.id, 10);
 
+        /** UPDATE */
         order.customerId = customer.id;
+        order.items = [item];
 
         const orderRepository = new OrderRepository();
         await orderRepository.update(order);
@@ -77,12 +85,12 @@ describe("Order Repository Unit Tests", () => {
             "customer_id": "2",
             "items": [
                 {
-                    "id": "1",
+                    "id": "2",
                     "order_id": order.id,
-                    "product_id": "1",
+                    "product_id": "2",
                     "quantity": 10,
-                    "price": 100,
-                    "name": "Product 1"
+                    "price": 200,
+                    "name": "Product 2"
                 }
             ],
             "total": 1000

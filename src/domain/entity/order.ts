@@ -17,6 +17,10 @@ export default class Order {
         this.validade();
     }
 
+    set items(value: OrderItem[]) {
+        this._items = value;
+    }
+
     get items(): OrderItem[] {
         return this._items;
     }
