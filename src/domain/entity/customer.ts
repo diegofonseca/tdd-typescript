@@ -1,3 +1,6 @@
+import EventDispatcher from "../event/@shared/event-dispatcher";
+import CustomerAddressChangedEvent from "../event/customer/customer-address-changed.event";
+import CustomerCreatedEvent from "../event/customer/customer-created.event";
 import Address from "./address";
 
 export default class Customer {
@@ -11,6 +14,10 @@ export default class Customer {
         this._id = id;
         this._name = name;
         this.validate();
+
+        const event = new CustomerCreatedEvent(this);
+        const eventDispatcher = EventDispatcher.getInstance();
+        eventDispatcher.notify(event);
     }
 
     addRewardPoints(point: number) {
@@ -54,6 +61,10 @@ export default class Customer {
 
     changeAddress(value: Address) {
         this._address = value;
+
+        const event = new CustomerAddressChangedEvent(this);
+        const eventDispatcher = EventDispatcher.getInstance();
+        eventDispatcher.notify(event);
     }
 
     activate() {
